@@ -1,0 +1,21 @@
+- name: install apache e php
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apache2
+  when: ansible_os_family == "Debian"
+
+- name: enviar o index.php para o default do apache
+  copy:
+    src: /etc/ansible/roles/web/files/index.php
+    dest: /var/www/html/index.html
+  when: ansible_os_family == "Debian"
+
+- name: garantir que os servicos estejam funfando
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - apache2
+  when: ansible_os_family == "Debian"

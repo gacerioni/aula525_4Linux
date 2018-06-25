@@ -1,0 +1,11 @@
+- name: Download repo puppet DEBIAN
+  get_url:
+    url: https://apt.puppetlabs.com/puppet5-release-xenial.deb
+    dest: /tmp/puppet.deb
+  when: ansible_os_family == "Debian"
+
+- name: instalar o repo
+  apt:
+    deb: /tmp/puppet.deb
+  when: ansible_os_family == "Debian"
+
