@@ -1,0 +1,24 @@
+---
+- name: DEPLOY DO RUNDECK
+  hosts: automation
+  tasks:
+    - name: instalando os reqs
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - java-1.8.0
+        - http://repo.rundeck.org/latest.rpm
+
+    - name: install do rundeck
+      yum:
+        name: rundeck
+        state: present
+      notify:
+      - start rundeck
+
+  handlers:
+    - name: start rundeck
+      service:
+        name: rundeckd
+        state: restarted
