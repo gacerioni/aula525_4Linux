@@ -1,0 +1,28 @@
+---
+- name: instalando pacotes jenkins
+  hosts: automation
+  remote_user: root
+  tasks:
+    - name: Dependencias
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - java
+        - wget
+        - git
+
+    - name: repo jenkins
+      get_url:
+        url: http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: repo rpm
+      rpm_key:
+        state: present
+        key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+    - name: jenkins package
+      yum:
+        name: jenkins
+        state: present

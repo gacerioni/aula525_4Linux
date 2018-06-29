@@ -1,0 +1,11 @@
+---
+- name: DEPLOY BLUE GREEN CONTAINERS
+  remote_user: root
+  hosts: docker
+
+  tasks:
+    - name: criando os diretorios
+      file:
+        path: /tmp/testao.txt
+        state: directory
+        mode: 0644

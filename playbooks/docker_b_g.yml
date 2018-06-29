@@ -1,0 +1,34 @@
+---
+- name: DEPLOY BLUE GREEN CONTAINERS
+  hosts: docker
+  remote_user: root
+
+  tasks:
+    - name: install do pip
+      apt:
+        name: python-pip
+
+    - name: install do docker-py
+      pip:
+        name: docker-py
+
+    - name: blue one
+      docker:
+        name: blue_container
+        image: httpd
+        state: started
+
+    - name: green one
+      docker:
+        name: green_container
+        image: httpd
+        state: started
+    
+    - name: criando os diretorios
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0644
+      with_items:
+        - /blue
+        - /green
