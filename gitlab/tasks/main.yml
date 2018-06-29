@@ -1,0 +1,27 @@
+---
+- name: DEPLOY DO GITLAB
+  hosts: devops
+  tasks:
+    - name: APTGET UPDATE
+      shell: apt-get update
+
+    - name: instalando os pacotes prereq
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - curl
+        - openssh-server
+        - ca-certificates
+        - postfix
+
+    - name: ADD GITLAB REPO
+      shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+
+    - name: install do gitlab
+      apt:
+        name: gitlab-ce
+        state: present
+
+
+
